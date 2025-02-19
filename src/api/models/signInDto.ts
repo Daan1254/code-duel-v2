@@ -6,7 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export * from './accessTokenDto';
-export * from './registerDto';
-export * from './signInDto';
-export * from './userDto';
+export interface SignInDto {
+  /** The email of the user */
+  email: string;
+  /** The password of the user */
+  password: string;
+}

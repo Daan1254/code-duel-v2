@@ -1,11 +1,24 @@
+import { useGetMe } from "@/api/endpoints/user/user"
 import { Navigation } from "@/components/shared/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { BookOpen, Calendar, Code2, Trophy, Users } from "lucide-react"
+import { useRouter } from "next/router"
 
 export default function Dashboard() {
+  const { data, isLoading } = useGetMe();
+  const router = useRouter();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data) {
+    router.push('/');
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground dark">
       <Navigation />
@@ -18,10 +31,10 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <Avatar className="h-20 w-20">
                 <AvatarImage src="/placeholder.svg" alt="User avatar" />
-                <AvatarFallback>JD</AvatarFallback>
+                <AvatarFallback className="font-bold">{data?.username?.slice(0,2).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div>
-                <h2 className="text-2xl font-bold">John Doe</h2>
+                <h2 className="text-2xl font-bold">{data?.username}</h2>
                 <p className="text-muted-foreground">Full Stack Developer</p>
               </div>
             </div>
