@@ -6,12 +6,22 @@
  * OpenAPI spec version: 1.0
  */
 import {
-  useMutation
+  useInfiniteQuery,
+  useQuery
 } from '@tanstack/react-query'
 import type {
-  MutationFunction,
-  UseMutationOptions,
-  UseMutationResult
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseInfiniteQueryResult,
+  DefinedUseQueryResult,
+  InfiniteData,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseInfiniteQueryOptions,
+  UseInfiniteQueryResult,
+  UseQueryOptions,
+  UseQueryResult
 } from '@tanstack/react-query'
 import { customInstance } from '../../custom-instance';
 import type { ErrorType } from '../../custom-instance';
@@ -24,54 +34,141 @@ export const getHello = (
 ) => {
       
       
-      return customInstance<string>(
-      {url: `/api/hello`, method: 'POST', signal
+      return customInstance<void>(
+      {url: `/api/hello`, method: 'GET', signal
     },
       );
     }
   
 
+export const getGetHelloQueryKey = () => {
+    return [`/api/hello`] as const;
+    }
 
-export const getGetHelloMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getHello>>, TError,void, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof getHello>>, TError,void, TContext> => {
     
-const mutationKey = ['getHello'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
+export const getGetHelloInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getHello>>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetHelloQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHello>>> = ({ signal }) => getHello(signal);
 
       
 
+      
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof getHello>>, void> = () => {
-          
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
 
-          return  getHello()
-        }
-
-        
+export type GetHelloInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getHello>>>
+export type GetHelloInfiniteQueryError = ErrorType<unknown>
 
 
-  return  { mutationFn, ...mutationOptions }}
+export function useGetHelloInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getHello>>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getHello>>,
+          TError,
+          Awaited<ReturnType<typeof getHello>>
+        > , 'initialData'
+      >, }
 
-    export type GetHelloMutationResult = NonNullable<Awaited<ReturnType<typeof getHello>>>
-    
-    export type GetHelloMutationError = ErrorType<unknown>
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetHelloInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getHello>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getHello>>,
+          TError,
+          Awaited<ReturnType<typeof getHello>>
+        > , 'initialData'
+      >, }
 
-    export const useGetHello = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof getHello>>, TError,void, TContext>, }
-): UseMutationResult<
-        Awaited<ReturnType<typeof getHello>>,
-        TError,
-        void,
-        TContext
-      > => {
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetHelloInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getHello>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>>, }
 
-      const mutationOptions = getGetHelloMutationOptions(options);
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-      return useMutation(mutationOptions);
-    }
-    
+export function useGetHelloInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getHello>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>>, }
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetHelloInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetHelloQueryOptions = <TData = Awaited<ReturnType<typeof getHello>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetHelloQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getHello>>> = ({ signal }) => getHello(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetHelloQueryResult = NonNullable<Awaited<ReturnType<typeof getHello>>>
+export type GetHelloQueryError = ErrorType<unknown>
+
+
+export function useGetHello<TData = Awaited<ReturnType<typeof getHello>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getHello>>,
+          TError,
+          Awaited<ReturnType<typeof getHello>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetHello<TData = Awaited<ReturnType<typeof getHello>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getHello>>,
+          TError,
+          Awaited<ReturnType<typeof getHello>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetHello<TData = Awaited<ReturnType<typeof getHello>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetHello<TData = Awaited<ReturnType<typeof getHello>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getHello>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetHelloQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+

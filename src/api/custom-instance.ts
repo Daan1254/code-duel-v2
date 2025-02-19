@@ -3,7 +3,7 @@ import Axios, {
   type AxiosInstance,
   type AxiosRequestConfig,
 } from "axios";
-  
+import { getCookie } from "typescript-cookie";
   // eslint-disable-next-line import/no-mutable-exports
   export let AXIOS_INSTANCE: AxiosInstance;
   
@@ -26,7 +26,7 @@ import Axios, {
     const source = Axios.CancelToken.source();
   
     try {
-      const token = "123";
+      const token = getCookie("token");
   
       if (token) {
         config.headers = {
