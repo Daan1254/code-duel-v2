@@ -87,7 +87,7 @@ const {mutation: mutationOptions} = options ?
 ) => {
       
       
-      return customInstance<void>(
+      return customInstance<AccessTokenDto>(
       {url: `/api/auth/register`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: registerDto, signal
