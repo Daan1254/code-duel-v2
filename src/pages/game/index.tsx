@@ -1,5 +1,4 @@
-import { useGetHello } from "@/api/endpoints/app/app"
-import { Navigation } from "@/components/shared/navigation"
+import { useGetMe } from "@/api/endpoints/user/user"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,41 +12,28 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useGameSocket } from "@/hooks/useGameSocket"
 import { Users } from "lucide-react"
 import { useState } from "react"
 
 export default function GameQueue() {
   const [isQueuing, setIsQueuing] = useState(false)
-  const [queueProgress, setQueueProgress] = useState(0)
-  const [estimatedTime, setEstimatedTime] = useState("2:30")
-  const [difficulty, setDifficulty] = useState("medium")
+  const { data, isLoading } = useGetMe();
 
-  const { data } = useGetHello();
+  const { gameState, joinQueue, leaveQueue } = useGameSocket(data?.id || '');
 
   const handleJoinQueue = () => {
-    setIsQueuing(true)
-    // Simulating queue progress
-    const interval = setInterval(() => {
-      setQueueProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          return 100
-        }
-        return prev + 10
-      })
-    }, 1000)
-  }
+    joinQueue('EASY');
+    setIsQueuing(true);
+  };
 
   const handleLeaveQueue = () => {
-    setIsQueuing(false)
-    setQueueProgress(0)
-  }
+    leaveQueue();
+    setIsQueuing(false);
+  };
 
   return (
     <>
-    <Navigation />
     <div className="min-h-screen bg-background text-foreground dark flex">
     <div className="p-4 flex items-center justify-center w-full">
       <Card className="w-full max-w-md">
@@ -57,12 +43,8 @@ export default function GameQueue() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="difficulty" className="text-sm font-medium">
-              Difficulty
-              {JSON.stringify(data)}
-
-            </label>
-            <Select disabled={isQueuing} value={difficulty} onValueChange={setDifficulty}>
+          
+            {/* <Select disabled={isQueuing} value={difficulty} onValueChange={setDifficulty}>
               <SelectTrigger id="difficulty">
                 <SelectValue placeholder="Select difficulty" />
               </SelectTrigger>
@@ -71,17 +53,29 @@ export default function GameQueue() {
                 <SelectItem value="medium">Medium</SelectItem>
                 <SelectItem value="hard">Hard</SelectItem>
               </SelectContent>
-            </Select>
+            </Select> */}
           </div>
           {isQueuing && (
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <span>Searching for opponents...</span>
-                <span className="text-sm text-muted-foreground">Est. wait: {estimatedTime}</span>
+        <div className="space-y-2">
+          <div className="flex justify-between items-center">
+            <span>In Lobby: {gameState.players.length} players</span>
+          </div>
+          <div className="space-y-2">
+            {gameState.players.map((player) => (
+              <div key={player.userId} className="flex items-center gap-2">
+                <Users className="h-4 w-4" />
+                <span>{player.username}</span>
               </div>
-              <Progress value={queueProgress} className="h-2" />
-            </div>
-          )}
+            ))}
+          </div>
+        </div>
+      )}
+
+      {gameState.error && (
+        <div className="text-red-500 text-sm">
+          {gameState.error}
+        </div>
+      )}
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4" />
