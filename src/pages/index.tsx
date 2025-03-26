@@ -1,22 +1,19 @@
 "use client"
 
+import { useGetMe } from "@/api/endpoints/user/user"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowRight, Award, Code, Cpu, Layers, Rocket, Shield, Zap } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
 import { TypeAnimation } from 'react-type-animation'
 
 export default function Home() {
-  // This would normally come from your auth provider
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  // Toggle login status for demo purposes
-  const toggleLogin = () => setIsLoggedIn(!isLoggedIn)
+  const { data: user } = useGetMe()
 
   return (
-    <div className="min-h-screen  bg-background text-foreground dark">
+    <div className="min-h-screen scroll-smooth  bg-background text-foreground dark">
       {/* Navigation with conditional auth buttons */}
       <header className="bg-background border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,19 +45,16 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              {/* For demo purposes, add a toggle button */}
-              <Button variant="outline" size="sm" onClick={toggleLogin} className="hidden md:inline-flex">
-                {isLoggedIn ? "Demo: Logout" : "Demo: Login"}
-              </Button>
-
-              {isLoggedIn ? (
+            <div className="flex items-center space-x-4">          
+              {user ? (
                 <>
                   <Link href="/dashboard">
-                    <Button variant="ghost">Dashboard</Button>
-                  </Link>
-                  <Link href="/profile">
-                    <Button variant="default">Profile</Button>
+                  <Avatar className="w-10 h-10">
+                      <AvatarImage src={user?.id} />
+                      <AvatarFallback className="font-bold">
+                       {user?.username.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
                   </Link>
                 </>
               ) : (
@@ -94,9 +88,9 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                  <Link href={isLoggedIn ? "/game-queue" : "/register"}>
+                  <Link href={user ? "/game-queue" : "/register"}>
                     <Button size="lg" className="gap-1">
-                      {isLoggedIn ? "Start Dueling" : "Join Now"}
+                      {user ? "Start Dueling" : "Join Now"}
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </Link>
@@ -248,7 +242,6 @@ function startDuel(config: Duel) {
                   </div>
                   <h3 className="text-xl font-bold">{step.title}</h3>
                   <p className="text-muted-foreground">{step.description}</p>
-                  {index < 2 && <div className="absolute left-7 top-7 hidden h-px w-full bg-border md:block" />}
                 </div>
               ))}
             </div>
@@ -488,8 +481,8 @@ function startDuel(config: Duel) {
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Link href={isLoggedIn ? "/game-queue" : "/register"}>
-                  <Button size="lg">{isLoggedIn ? "Start Dueling" : "Sign Up Now"}</Button>
+                <Link href={user ? "/game-queue" : "/register"}>
+                  <Button size="lg">{user ? "Start Dueling" : "Sign Up Now"}</Button>
                 </Link>
               </div>
             </div>

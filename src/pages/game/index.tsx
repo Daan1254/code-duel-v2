@@ -58,24 +58,19 @@ export default function GameQueue() {
           {isQueuing && (
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <span>In Lobby: {gameState.players.length} players</span>
+            <span>In Lobby: {gameState?.participants.length} players</span>
           </div>
           <div className="space-y-2">
-            {gameState.players.map((player) => (
-              <div key={player.userId} className="flex items-center gap-2">
+            {gameState?.participants.map((player) => (
+              <div key={player.user.id} className="flex items-center gap-2">
                 <Users className="h-4 w-4" />
-                <span>{player.username}</span>
+                <span>{player.user.username}</span>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {gameState.error && (
-        <div className="text-red-500 text-sm">
-          {gameState.error}
-        </div>
-      )}
           <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4" />

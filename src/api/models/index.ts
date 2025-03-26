@@ -7,6 +7,10 @@
  */
 
 export * from './accessTokenDto';
+export * from './gameDto';
+export * from './gameDtoStatus';
+export * from './gameParticipantDto';
+export * from './gameParticipantDtoLanguage';
 export * from './registerDto';
 export * from './signInDto';
 export * from './userDto';
