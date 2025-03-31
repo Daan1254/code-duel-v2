@@ -19,7 +19,6 @@ export default function Index() {
   const {
     handleSubmit,
     register,
-    formState: { errors },
   } = useForm<RegisterDto>();
   const onSubmit: SubmitHandler<RegisterDto> = async (data) => {
     console.log(data);

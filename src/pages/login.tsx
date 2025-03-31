@@ -18,7 +18,6 @@ export default function Index() {
   const {
     handleSubmit,
     register,
-    formState: { errors },
   } = useForm<SignInDto>();
   const onSubmit: SubmitHandler<SignInDto> = async (data) => {
     try {
