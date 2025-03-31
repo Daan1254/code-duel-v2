@@ -57,7 +57,7 @@ export default function Index() {
         </CardContent>
         <CardFooter className="flex flex-col gap-2">
           <Button variant="link">Forgot Password?</Button>
-          <Link href="/register" className="text-sm text-gray-500">Don't have an account? Sign Up</Link>
+          <Link href="/register" className="text-sm text-gray-500">Don&apos;t have an account? Sign Up</Link>
         </CardFooter>
       </Card>
     </div>  

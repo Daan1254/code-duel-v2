@@ -18,7 +18,7 @@ import { useState } from "react"
 
 export default function GameQueue() {
   const [isQueuing, setIsQueuing] = useState(false)
-  const { data, isLoading } = useGetMe();
+  const { data } = useGetMe();
 
   const { gameState, joinQueue, leaveQueue } = useGameSocket(data?.id || '');
 

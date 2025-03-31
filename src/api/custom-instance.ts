@@ -59,16 +59,14 @@ export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
       if (Axios.isCancel(error)) {
         console.log("Request canceled", error.message);
       } else {
-        // @ts-ignore
-        const message = error.response?.data?.message;
+        const fixedError = error as any;
+        const message = fixedError.response?.data?.message;
 
         if (message) {
           if (Array.isArray(message)) {
-            // @ts-ignore
-            error.message = message.join(", ");
+            fixedError.message = message.join(", ");
           } else {
-            // @ts-ignore
-            error.message = message;
+            fixedError.message = message;
           }
         }
       }
