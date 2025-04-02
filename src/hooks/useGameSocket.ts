@@ -2,8 +2,17 @@ import { GameDto } from "@/api/models";
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-export function useGameSocket(userId: string) {
+export interface GameSocket {
+  gameState: GameDto | null;
+  joinQueue: (difficulty: string) => void;
+  leaveQueue: () => void;
+  sendEvent: <T>(event: string, data: T) => void;
+  isHost: boolean;
+}
+
+export function useGameSocket(userId: string): GameSocket {
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [isHost, setIsHost] = useState<boolean>(false);
   const [gameState, setGameState] = useState<GameDto | null>(null);
 
   useEffect(() => {
@@ -18,6 +27,10 @@ export function useGameSocket(userId: string) {
     });
 
     newSocket.on("error", (data: GameDto) => {
+      setGameState(data);
+    });
+
+    newSocket.on("gameStarted", (data: GameDto) => {
       setGameState(data);
     });
 
@@ -36,5 +49,23 @@ export function useGameSocket(userId: string) {
     socket?.emit("leaveQueue", { userId });
   };
 
-  return { gameState, joinQueue, leaveQueue };
+  const startGame = () => {
+    socket?.emit("startGame", { userId });
+  };
+
+  const sendEvent = <T>(event: string, data: T) => {
+    socket?.emit(event, data);
+  };
+
+  useEffect(() => {
+    if (gameState) {
+      setIsHost(
+        gameState.participants.find(
+          (participant) => participant.user.id === userId
+        )?.isHost || false
+      );
+    }
+  }, [gameState]);
+
+  return { gameState, joinQueue, leaveQueue, sendEvent, isHost };
 }
