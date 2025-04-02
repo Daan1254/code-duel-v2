@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { setCookie } from "typescript-cookie";
 
 
 
@@ -32,7 +31,7 @@ export default function Index() {
         },
       });
 
-      setCookie('token', result.access_token);
+      localStorage.setItem('token', result.access_token);
       router.push('/dashboard');
     } catch (e: any) {
       setError(e.message);
