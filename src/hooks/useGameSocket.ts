@@ -7,7 +7,9 @@ export function useGameSocket(userId: string) {
   const [gameState, setGameState] = useState<GameDto | null>(null);
 
   useEffect(() => {
-    const newSocket = io("http://localhost:80/game");
+    const newSocket = io(
+      `${process.env.NEXT_PUBLIC_BACK_END_URL ?? "http://localhost"}:80/game`
+    );
 
     newSocket.on("playerJoined", (data: GameDto) => {
       setGameState(data);
