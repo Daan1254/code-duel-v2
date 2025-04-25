@@ -14,7 +14,7 @@ RUN npm ci
 COPY . .
 
 # Set build-time environment variables
-ENV NEXT_PUBLIC_BACK_END_URL=http://localhost:3000
+ENV NEXT_PUBLIC_BACK_END_URL=https://code-duel-api.daanverbeek.nl
 
 # Build the application
 RUN npm run build
