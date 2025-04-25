@@ -33,7 +33,7 @@ export function setAxiosInstance(axiosInstance: AxiosInstance) {
 
 setAxiosInstance(
   Axios.create({
-    baseURL: process.env.BACK_END_URL ?? "http://localhost:3000",
+    baseURL: process.env.NEXT_PUBLIC_BACK_END_URL ?? "http://localhost:3000",
   })
 );
 
