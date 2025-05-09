@@ -4,15 +4,7 @@ import { Users } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 
-export const GameQueue = ({
-  gameState,
-  connect,
-  isHost,
-  error,
-}: GameSocket) => {
-  const isQueuing =
-    gameState?.status === "PENDING" && gameState?.participants.length > 0;
-
+export const GameQueue = ({ gameState, isHost }: GameSocket) => {
   // Dummy countdown for demo
   const countdown = "01:28";
 
