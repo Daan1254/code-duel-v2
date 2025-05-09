@@ -8,14 +8,12 @@ export interface GameSocket {
   gameState: GameDto | null;
   connect: () => void;
   isHost: boolean;
-  error: string | null;
 }
 
 export function useGameSocket(): GameSocket {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isHost, setIsHost] = useState<boolean>(false);
   const [gameState, setGameState] = useState<GameDto | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const { data: user } = useGetMe();
   const router = useRouter();
 
@@ -46,7 +44,7 @@ export function useGameSocket(): GameSocket {
     return () => {
       newSocket.close();
     };
-  }, [user?.id]);
+  }, [user?.id, router]);
 
   const connect = () => {
     if (socket && user?.id) {
@@ -64,5 +62,5 @@ export function useGameSocket(): GameSocket {
     }
   }, [gameState]);
 
-  return { gameState, connect, isHost, error };
+  return { gameState, connect, isHost };
 }

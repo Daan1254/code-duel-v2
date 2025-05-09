@@ -57,7 +57,7 @@ export const GameQueue = ({ gameState, isHost }: GameSocket) => {
               </AvatarFallback>
             </Avatar>
             <span className="text-sm font-medium   max-w-[80px] text-center">
-              {player.user.username} Connected: {player.isConnected.toString()}
+              {player.user.username}
             </span>
           </div>
         ))}
