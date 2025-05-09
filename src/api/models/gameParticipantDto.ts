@@ -15,4 +15,5 @@ export interface GameParticipantDto {
   isCompleted: boolean;
   completedAt: string;
   language: GameParticipantDtoLanguage;
+  isHost: boolean;
 }

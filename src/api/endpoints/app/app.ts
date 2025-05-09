@@ -35,14 +35,14 @@ export const getHello = (
       
       
       return customInstance<void>(
-      {url: `/api/hello`, method: 'GET', signal
+      {url: `/api/helloo`, method: 'GET', signal
     },
       );
     }
   
 
 export const getGetHelloQueryKey = () => {
-    return [`/api/hello`] as const;
+    return [`/api/helloo`] as const;
     }
 
     

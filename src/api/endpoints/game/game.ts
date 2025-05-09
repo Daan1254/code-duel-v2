@@ -6,22 +6,12 @@
  * OpenAPI spec version: 1.0
  */
 import {
-  useInfiniteQuery,
-  useQuery
+  useMutation
 } from '@tanstack/react-query'
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseInfiniteQueryResult,
-  DefinedUseQueryResult,
-  InfiniteData,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
-  UseInfiniteQueryOptions,
-  UseInfiniteQueryResult,
-  UseQueryOptions,
-  UseQueryResult
+  MutationFunction,
+  UseMutationOptions,
+  UseMutationResult
 } from '@tanstack/react-query'
 import type {
   GameDto
@@ -31,147 +21,60 @@ import type { ErrorType } from '../../custom-instance';
 
 
 
-export const getGame = (
-    id: string,
+export const createGame = (
+    
  signal?: AbortSignal
 ) => {
       
       
       return customInstance<GameDto>(
-      {url: `/api/game/${id}`, method: 'GET', signal
+      {url: `/api/game`, method: 'POST', signal
     },
       );
     }
   
 
-export const getGetGameQueryKey = (id: string,) => {
-    return [`/api/game/${id}`] as const;
-    }
 
+export const getCreateGameMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGame>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createGame>>, TError,void, TContext> => {
     
-export const getGetGameInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getGame>>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>>, }
-) => {
-
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetGameQueryKey(id);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGame>>> = ({ signal }) => getGame(id, signal);
+const mutationKey = ['createGame'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
 
       
 
-      
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGame>>, void> = () => {
+          
 
-export type GetGameInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getGame>>>
-export type GetGameInfiniteQueryError = ErrorType<unknown>
+          return  createGame()
+        }
 
-
-export function useGetGameInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getGame>>>, TError = ErrorType<unknown>>(
- id: string, options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getGame>>,
-          TError,
-          Awaited<ReturnType<typeof getGame>>
-        > , 'initialData'
-      >, }
-
-  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetGameInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getGame>>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getGame>>,
-          TError,
-          Awaited<ReturnType<typeof getGame>>
-        > , 'initialData'
-      >, }
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetGameInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getGame>>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>>, }
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetGameInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getGame>>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>>, }
-
-  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetGameInfiniteQueryOptions(id,options)
-
-  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
+        
 
 
+  return  { mutationFn, ...mutationOptions }}
 
-export const getGetGameQueryOptions = <TData = Awaited<ReturnType<typeof getGame>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>>, }
-) => {
+    export type CreateGameMutationResult = NonNullable<Awaited<ReturnType<typeof createGame>>>
+    
+    export type CreateGameMutationError = ErrorType<unknown>
 
-const {query: queryOptions} = options ?? {};
+    export const useCreateGame = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGame>>, TError,void, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createGame>>,
+        TError,
+        void,
+        TContext
+      > => {
 
-  const queryKey =  queryOptions?.queryKey ?? getGetGameQueryKey(id);
+      const mutationOptions = getCreateGameMutationOptions(options);
 
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGame>>> = ({ signal }) => getGame(id, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetGameQueryResult = NonNullable<Awaited<ReturnType<typeof getGame>>>
-export type GetGameQueryError = ErrorType<unknown>
-
-
-export function useGetGame<TData = Awaited<ReturnType<typeof getGame>>, TError = ErrorType<unknown>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getGame>>,
-          TError,
-          Awaited<ReturnType<typeof getGame>>
-        > , 'initialData'
-      >, }
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetGame<TData = Awaited<ReturnType<typeof getGame>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getGame>>,
-          TError,
-          Awaited<ReturnType<typeof getGame>>
-        > , 'initialData'
-      >, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetGame<TData = Awaited<ReturnType<typeof getGame>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>>, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetGame<TData = Awaited<ReturnType<typeof getGame>>, TError = ErrorType<unknown>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGame>>, TError, TData>>, }
-
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetGameQueryOptions(id,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
+      return useMutation(mutationOptions);
+    }
+    
