@@ -1,19 +1,37 @@
-import { useGetMe } from "@/api/endpoints/user/user";
-import { GameQueue } from "@/components/game/GameQueue";
-import { useGameSocket } from "@/hooks/useGameSocket";
+import { useCreateGame } from "@/api/endpoints/game/game";
+import { useRouter } from "next/router";
+import { useEffect, useRef } from "react";
+import { TypeAnimation } from "react-type-animation";
 
 export default function Game() {
-  const { data } = useGetMe();
+  const { mutateAsync: createGame } = useCreateGame();
+  const router = useRouter();
+  const isQuerying = useRef(false);
 
-  const game = useGameSocket(data?.id || "");
+  useEffect(() => {
+    if (isQuerying.current) return;
+    isQuerying.current = true;
+
+    const fetchGame = async () => {
+      console.log("fetching game");
+      const game = await createGame();
+      if (game) {
+        router.push(`/game/${game.id}`);
+      }
+    };
+    fetchGame();
+  }, []);
 
   return (
-    <>
-      <div className="min-h-screen bg-background text-foreground dark flex">
-        {(game.gameState?.status == "PENDING" || game.gameState === null) && (
-          <GameQueue {...game} />
-        )}
-      </div>
-    </>
+    <div className="w-full h-screen flex items-center justify-center flex-col gap-4 bg-background">
+      <h1 className="text-3xl font-bold text-white">
+        Joining a game{" "}
+        <TypeAnimation
+          sequence={[".", 100, "..", 100, "...", 100]}
+          repeat={Infinity}
+          speed={2}
+        />
+      </h1>
+    </div>
   );
 }
