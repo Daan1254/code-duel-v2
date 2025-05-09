@@ -15,7 +15,7 @@ COPY . .
 
 # Set build-time environment variables
 ENV NEXT_PUBLIC_BACK_END_URL=https://code-duel-api.daanverbeek.nl
-ENV NEXT_PUBLIC_SOCKET_URL=https://code-duel-api.daanverbeek.nl:80
+ENV NEXT_PUBLIC_SOCKET_URL=wss://code-duel-api.daanverbeek.nl:80
 
 
 # Build the application
@@ -29,7 +29,7 @@ WORKDIR /app
 # Set environment variables
 ENV NODE_ENV=production
 ENV NEXT_PUBLIC_BACK_END_URL=https://code-duel-api.daanverbeek.nl
-ENV NEXT_PUBLIC_SOCKET_URL=https://code-duel-api.daanverbeek.nl:80
+ENV NEXT_PUBLIC_SOCKET_URL=wss://code-duel-api.daanverbeek.nl:80
 
 # Copy necessary files from builder
 COPY --from=builder /app/public ./public
