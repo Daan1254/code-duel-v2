@@ -4,15 +4,7 @@ import { Users } from "lucide-react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 
-export const GameQueue = ({
-  gameState,
-  connect,
-  isHost,
-  error,
-}: GameSocket) => {
-  const isQueuing =
-    gameState?.status === "PENDING" && gameState?.participants.length > 0;
-
+export const GameQueue = ({ gameState, isHost }: GameSocket) => {
   // Dummy countdown for demo
   const countdown = "01:28";
 
@@ -65,7 +57,7 @@ export const GameQueue = ({
               </AvatarFallback>
             </Avatar>
             <span className="text-sm font-medium   max-w-[80px] text-center">
-              {player.user.username} Connected: {player.isConnected.toString()}
+              {player.user.username}
             </span>
           </div>
         ))}
