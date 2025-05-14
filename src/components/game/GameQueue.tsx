@@ -1,14 +1,46 @@
 import { GameSocket } from "@/hooks/useGameSocket";
 
+import { formatTime } from "@/lib/utils";
 import { Users } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 
-export const GameQueue = ({ gameState, isHost }: GameSocket) => {
-  // Dummy countdown for demo
-  const countdown = "01:28";
+export const GameQueue = ({
+  gameState,
+  isHost,
+  leave,
+  startGame,
+}: GameSocket) => {
+  const [countdown, setCountdown] = useState("Starting soon...");
 
-  // Max players (adjust as needed)
+  useEffect(() => {
+    if (gameState?.startsAt && new Date(gameState.startsAt) > new Date()) {
+      // Update countdown every second
+      const timer = setInterval(() => {
+        const timeLeft =
+          new Date(gameState.startsAt).getTime() - new Date().getTime();
+        if (timeLeft > 0) {
+          setCountdown(formatTime(new Date(gameState.startsAt)));
+        } else {
+          setCountdown("Starting soon...");
+          clearInterval(timer);
+          if (isHost) {
+            startGame();
+          }
+        }
+      }, 1000);
+
+      // Cleanup interval on unmount or when gameState changes
+      return () => clearInterval(timer);
+    } else {
+      console.log(isHost);
+      if (isHost) {
+        startGame();
+      }
+    }
+  }, [gameState]);
+
   const maxPlayers = 8;
 
   const emptySlots = maxPlayers - (gameState?.participants?.length || 0);
@@ -31,12 +63,14 @@ export const GameQueue = ({ gameState, isHost }: GameSocket) => {
           className="px-8 py-4 text-lg font-bold "
           variant="default"
           disabled={!isHost}
+          onClick={startGame}
         >
-          LAUNCH CLASH
+          LAUNCH GAME
         </Button>
         <Button
           className="px-8 py-4 text-lg font-bold bg-muted-foreground/20"
           variant="secondary"
+          onClick={leave}
         >
           LEAVE CLASH
         </Button>
@@ -44,7 +78,7 @@ export const GameQueue = ({ gameState, isHost }: GameSocket) => {
 
       {/* Countdown */}
       <div className="mb-6 text-xl font-semibold">
-        Clash starts in: <span className="font-mono">{countdown}</span>
+        Game starts in: <span className="font-mono">{countdown}</span>
       </div>
 
       {/* Player grid */}

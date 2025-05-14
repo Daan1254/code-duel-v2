@@ -7,9 +7,12 @@
  */
 import type { GameDtoStatus } from './gameDtoStatus';
 import type { GameParticipantDto } from './gameParticipantDto';
+import type { ChallengeDto } from './challengeDto';
 
 export interface GameDto {
   id: string;
   status: GameDtoStatus;
   participants: GameParticipantDto[];
+  startsAt: string;
+  challenge: ChallengeDto;
 }

@@ -7,6 +7,8 @@
  */
 
 export * from './accessTokenDto';
+export * from './challengeDto';
+export * from './challengeDtoDifficulty';
 export * from './gameDto';
 export * from './gameDtoStatus';
 export * from './gameParticipantDto';

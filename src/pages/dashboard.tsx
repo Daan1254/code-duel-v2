@@ -1,9 +1,15 @@
-import { useGetMe } from "@/api/endpoints/user/user"
-import { Navigation } from "@/components/shared/navigation"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { useRouter } from "next/router"
+import { useGetMe } from "@/api/endpoints/user/user";
+import { Navigation } from "@/components/shared/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { useRouter } from "next/router";
 
 export default function Dashboard() {
   const { data, isLoading } = useGetMe();
@@ -14,7 +20,7 @@ export default function Dashboard() {
   }
 
   if (!data) {
-    router.push('/');
+    router.push("/");
   }
 
   return (
@@ -29,7 +35,9 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <Avatar className="h-20 w-20">
                 <AvatarImage src="/placeholder.svg" alt="User avatar" />
-                <AvatarFallback className="font-bold">{data?.username?.slice(0,2).toUpperCase()}</AvatarFallback>
+                <AvatarFallback className="font-bold">
+                  {data?.username?.slice(0, 2).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
               <div>
                 <h2 className="text-2xl font-bold">{data?.username}</h2>
@@ -69,6 +77,5 @@ export default function Dashboard() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
