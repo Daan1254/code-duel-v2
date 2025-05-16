@@ -1,4 +1,5 @@
 import { useGetMe } from "@/api/endpoints/user/user";
+import { StatisticsCard } from "@/components/dashboard/StatisticsCard";
 import { Navigation } from "@/components/shared/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -73,6 +74,8 @@ export default function Dashboard() {
                 </div>
               </CardContent>
             </Card>
+
+            <StatisticsCard />
           </div>
         </div>
       </div>

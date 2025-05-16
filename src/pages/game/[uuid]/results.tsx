@@ -13,16 +13,37 @@ const ResultsPage = () => {
 
   const calculateDuration = (completedAt: string | null, startsAt: string) => {
     if (!completedAt) return "--:--";
-    const completedAtDate = new Date(completedAt);
-    const startsAtDate = new Date(startsAt);
-    const totalSeconds = Math.floor(
-      (completedAtDate.getTime() - startsAtDate.getTime()) / 1000
-    );
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
+    try {
+      console.log(completedAt, startsAt);
+      const completedAtDate = new Date(completedAt);
+      const startsAtDate = new Date(startsAt);
+
+      if (isNaN(completedAtDate.getTime()) || isNaN(startsAtDate.getTime())) {
+        console.error("Invalid date format");
+        return "--:--";
+      }
+
+      const totalSeconds = Math.floor(
+        (completedAtDate.getTime() - startsAtDate.getTime()) / 1000
+      );
+
+      if (totalSeconds < 0) {
+        console.error("Negative duration");
+        return "--:--";
+      }
+
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+
+      return `${minutes.toString().padStart(2, "0")}:${seconds
+        .toString()
+        .padStart(2, "0")}`;
+    } catch (err) {
+      console.error("Error calculating duration:", err);
+      console.log("completedAt:", completedAt);
+      console.log("startsAt:", startsAt);
+      return "--:--";
+    }
   };
 
   return (
