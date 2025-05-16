@@ -1,5 +1,6 @@
 import { GameSocket } from "@/hooks/useGameSocket";
 import { Users } from "lucide-react";
+import dynamic from "next/dynamic";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
@@ -9,6 +10,10 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+
+const MonacoEditor = dynamic(() => import("@monaco-editor/react"), {
+  ssr: false,
+});
 
 const GameScreen = ({ gameState, submitCode }: GameSocket) => {
   if (!gameState) {
@@ -47,11 +52,16 @@ const GameScreen = ({ gameState, submitCode }: GameSocket) => {
           <div className="flex-1 px-6 pb-2">
             <Card className="h-full bg-[#181a20] border border-muted-foreground/20">
               <CardContent className="h-full p-0">
-                {/* Replace this with your code editor component */}
-                <textarea
-                  className="w-full h-full bg-transparent text-white font-mono p-4 resize-none outline-none"
-                  placeholder="// Write your code here"
-                  spellCheck={false}
+                <MonacoEditor
+                  className="h-full rounded-2xl"
+                  language="javascript"
+                  theme="vs-dark"
+                  value={gameState.challenge.starterCode}
+                  options={{
+                    minimap: { enabled: false },
+                    scrollBeyondLastLine: false,
+                    fontSize: 14,
+                  }}
                 />
               </CardContent>
             </Card>
@@ -64,11 +74,7 @@ const GameScreen = ({ gameState, submitCode }: GameSocket) => {
                   Console output
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <pre className="text-xs text-gray-300">
-                  Output will appear here...
-                </pre>
-              </CardContent>
+              <CardContent></CardContent>
             </Card>
           </div>
           {/* Test cases row */}

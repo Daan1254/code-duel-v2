@@ -11,7 +11,7 @@ const TestCaseModal = ({ testCase }: { testCase: any }) => (
   <AlertDialog>
     <AlertDialogTrigger asChild>
       <Button
-        variant={testCase.passed ? "success" : "secondary"}
+        variant={testCase.passed ? "default" : "secondary"}
         className={`w-full flex justify-between items-center px-4 py-2 rounded-md text-xs font-mono ${
           testCase.passed
             ? "bg-green-900/40 text-green-300"
