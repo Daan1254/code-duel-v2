@@ -251,7 +251,7 @@ export const Subscriptions = () => {
             </Card>
           ))}
         </div>
-        <Button className="w-32" onClick={() => router.back()}>
+        <Button className="w-32" onClick={() => router.push("/dashboard")}>
           Terug
         </Button>
       </div>

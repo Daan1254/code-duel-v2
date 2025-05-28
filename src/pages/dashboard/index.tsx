@@ -1,3 +1,7 @@
+import {
+  useCreateCustomerPortalSession,
+  useGetCurrentSubscription,
+} from "@/api/endpoints/subscription/subscription";
 import { useGetProfile } from "@/api/endpoints/user/user";
 import { StatisticsCard } from "@/components/dashboard/StatisticsCard";
 import { Navigation } from "@/components/shared/navigation";
@@ -10,11 +14,31 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { CreditCard, Receipt } from "lucide-react";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 export default function Dashboard() {
   const { data, isLoading } = useGetProfile();
+  const { data: currentSubscription } = useGetCurrentSubscription();
   const router = useRouter();
+
+  const customerPortalMutation = useCreateCustomerPortalSession({
+    mutation: {
+      onSuccess: (data) => {
+        if (data.url) {
+          window.location.href = data.url;
+        }
+      },
+      onError: (error: any) => {
+        toast.error(error.message || "Er is een fout opgetreden");
+      },
+    },
+  });
+
+  const handleViewInvoices = () => {
+    customerPortalMutation.mutate();
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -61,20 +85,74 @@ export default function Dashboard() {
                   <div className="flex justify-between">
                     <span>Plan:</span>
                     <span className="font-medium">
-                      {data?.subscription?.name ?? "FREE"}
+                      {currentSubscription?.name ?? "FREE"}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Status:</span>
-                    <span className="font-medium text-green-500">
-                      {data?.subscription?.status}
+                    <span
+                      className={`font-medium ${
+                        currentSubscription?.status === "active"
+                          ? "text-green-500"
+                          : currentSubscription?.status
+                          ? "text-yellow-500"
+                          : "text-gray-500"
+                      }`}
+                    >
+                      {currentSubscription?.status ?? "No active subscription"}
                     </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Next billing:</span>
-                    <span className="font-medium">volgende week neef</span>
+                  {currentSubscription && (
+                    <div className="flex justify-between">
+                      <span>Price:</span>
+                      <span className="font-medium">
+                        €{((currentSubscription.price || 0) / 100).toFixed(2)}
+                        /month
+                      </span>
+                    </div>
+                  )}
+                  <Button
+                    className="w-full mt-4"
+                    onClick={() => router.push("/dashboard/subscriptions")}
+                  >
+                    {currentSubscription ? "Manage Plan" : "Choose Plan"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Billing & Invoices Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Receipt className="h-5 w-5" />
+                  Billing & Invoices
+                </CardTitle>
+                <CardDescription>
+                  Manage your billing and view invoices
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CreditCard className="h-4 w-4" />
+                    <span>
+                      View all your invoices and manage payment methods
+                    </span>
                   </div>
-                  <Button className="w-full mt-4">Upgrade Plan</Button>
+                  <Button
+                    className="w-full"
+                    onClick={handleViewInvoices}
+                    disabled={
+                      customerPortalMutation.isPending || !currentSubscription
+                    }
+                  >
+                    {customerPortalMutation.isPending
+                      ? "Opening..."
+                      : !currentSubscription
+                      ? "No subscription"
+                      : "View Invoices & Billing"}
+                  </Button>
                 </div>
               </CardContent>
             </Card>

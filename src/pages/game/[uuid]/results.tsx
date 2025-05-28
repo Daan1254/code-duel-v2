@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGameSocket } from "@/hooks/useGameSocket";
 import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/router";
 
 const ResultsPage = () => {
   const { gameState } = useGameSocket();
   const { user: userData } = useUser();
+  const router = useRouter();
 
   if (!gameState) {
     return <div>Loading...</div>;
@@ -111,6 +113,13 @@ const ResultsPage = () => {
             </div>
             <Button variant="default" className="w-48">
               SHARE MY CODE
+            </Button>
+            <Button
+              variant="default"
+              className="w-48 mt-3"
+              onClick={() => router.push("/dashboard")}
+            >
+              Back to Dashboard
             </Button>
           </CardContent>
         </Card>

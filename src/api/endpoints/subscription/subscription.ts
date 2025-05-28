@@ -28,6 +28,7 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query'
 import type {
+  RedirectDto,
   SubscriptionDto
 } from '../../models'
 import { customInstance } from '../../custom-instance';
@@ -542,6 +543,62 @@ const {mutation: mutationOptions} = options ?
       > => {
 
       const mutationOptions = getCancelSubscriptionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    export const createCustomerPortalSession = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<RedirectDto>(
+      {url: `/api/subscription/customer-portal`, method: 'POST', signal
+    },
+      );
+    }
+  
+
+
+export const getCreateCustomerPortalSessionMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCustomerPortalSession>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createCustomerPortalSession>>, TError,void, TContext> => {
+    
+const mutationKey = ['createCustomerPortalSession'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCustomerPortalSession>>, void> = () => {
+          
+
+          return  createCustomerPortalSession()
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateCustomerPortalSessionMutationResult = NonNullable<Awaited<ReturnType<typeof createCustomerPortalSession>>>
+    
+    export type CreateCustomerPortalSessionMutationError = ErrorType<unknown>
+
+    export const useCreateCustomerPortalSession = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCustomerPortalSession>>, TError,void, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createCustomerPortalSession>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getCreateCustomerPortalSessionMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
