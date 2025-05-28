@@ -17,4 +17,7 @@ export * from './gameParticipantDtoLanguage';
 export * from './registerDto';
 export * from './signInDto';
 export * from './statisticDto';
+export * from './subscriptionDto';
+export * from './subscriptionDtoStatus';
 export * from './userDto';
+export * from './userDtoSubscription';

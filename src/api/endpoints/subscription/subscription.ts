@@ -7,6 +7,7 @@
  */
 import {
   useInfiniteQuery,
+  useMutation,
   useQuery
 } from '@tanstack/react-query'
 import type {
@@ -15,14 +16,20 @@ import type {
   DefinedUseInfiniteQueryResult,
   DefinedUseQueryResult,
   InfiniteData,
+  MutationFunction,
   QueryFunction,
   QueryKey,
   UndefinedInitialDataOptions,
   UseInfiniteQueryOptions,
   UseInfiniteQueryResult,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
+import type {
+  SubscriptionDto
+} from '../../models'
 import { customInstance } from '../../custom-instance';
 import type { ErrorType } from '../../custom-instance';
 
@@ -34,7 +41,7 @@ export const getCurrentSubscription = (
 ) => {
       
       
-      return customInstance<void>(
+      return customInstance<SubscriptionDto>(
       {url: `/api/subscription/current`, method: 'GET', signal
     },
       );
@@ -172,3 +179,370 @@ export function useGetCurrentSubscription<TData = Awaited<ReturnType<typeof getC
 
 
 
+export const getSubscriptions = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<SubscriptionDto[]>(
+      {url: `/api/subscription`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+export const getGetSubscriptionsQueryKey = () => {
+    return [`/api/subscription`] as const;
+    }
+
+    
+export const getGetSubscriptionsInfiniteQueryOptions = <TData = InfiniteData<Awaited<ReturnType<typeof getSubscriptions>>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSubscriptionsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSubscriptions>>> = ({ signal }) => getSubscriptions(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetSubscriptionsInfiniteQueryResult = NonNullable<Awaited<ReturnType<typeof getSubscriptions>>>
+export type GetSubscriptionsInfiniteQueryError = ErrorType<unknown>
+
+
+export function useGetSubscriptionsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getSubscriptions>>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSubscriptions>>,
+          TError,
+          Awaited<ReturnType<typeof getSubscriptions>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSubscriptionsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getSubscriptions>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSubscriptions>>,
+          TError,
+          Awaited<ReturnType<typeof getSubscriptions>>
+        > , 'initialData'
+      >, }
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSubscriptionsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getSubscriptions>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>>, }
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetSubscriptionsInfinite<TData = InfiniteData<Awaited<ReturnType<typeof getSubscriptions>>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseInfiniteQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>>, }
+
+  ):  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetSubscriptionsInfiniteQueryOptions(options)
+
+  const query = useInfiniteQuery(queryOptions) as  UseInfiniteQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const getGetSubscriptionsQueryOptions = <TData = Awaited<ReturnType<typeof getSubscriptions>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSubscriptionsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSubscriptions>>> = ({ signal }) => getSubscriptions(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetSubscriptionsQueryResult = NonNullable<Awaited<ReturnType<typeof getSubscriptions>>>
+export type GetSubscriptionsQueryError = ErrorType<unknown>
+
+
+export function useGetSubscriptions<TData = Awaited<ReturnType<typeof getSubscriptions>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSubscriptions>>,
+          TError,
+          Awaited<ReturnType<typeof getSubscriptions>>
+        > , 'initialData'
+      >, }
+
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSubscriptions<TData = Awaited<ReturnType<typeof getSubscriptions>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getSubscriptions>>,
+          TError,
+          Awaited<ReturnType<typeof getSubscriptions>>
+        > , 'initialData'
+      >, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetSubscriptions<TData = Awaited<ReturnType<typeof getSubscriptions>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetSubscriptions<TData = Awaited<ReturnType<typeof getSubscriptions>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getSubscriptions>>, TError, TData>>, }
+
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetSubscriptionsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+export const createCheckoutSession = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/api/subscription/create-checkout-session`, method: 'POST', signal
+    },
+      );
+    }
+  
+
+
+export const getCreateCheckoutSessionMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCheckoutSession>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createCheckoutSession>>, TError,void, TContext> => {
+    
+const mutationKey = ['createCheckoutSession'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCheckoutSession>>, void> = () => {
+          
+
+          return  createCheckoutSession()
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateCheckoutSessionMutationResult = NonNullable<Awaited<ReturnType<typeof createCheckoutSession>>>
+    
+    export type CreateCheckoutSessionMutationError = ErrorType<unknown>
+
+    export const useCreateCheckoutSession = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCheckoutSession>>, TError,void, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createCheckoutSession>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getCreateCheckoutSessionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    export const createCheckoutSessionForSubscription = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/api/subscription/create-checkout-session-for-subscription`, method: 'POST', signal
+    },
+      );
+    }
+  
+
+
+export const getCreateCheckoutSessionForSubscriptionMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCheckoutSessionForSubscription>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof createCheckoutSessionForSubscription>>, TError,void, TContext> => {
+    
+const mutationKey = ['createCheckoutSessionForSubscription'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCheckoutSessionForSubscription>>, void> = () => {
+          
+
+          return  createCheckoutSessionForSubscription()
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateCheckoutSessionForSubscriptionMutationResult = NonNullable<Awaited<ReturnType<typeof createCheckoutSessionForSubscription>>>
+    
+    export type CreateCheckoutSessionForSubscriptionMutationError = ErrorType<unknown>
+
+    export const useCreateCheckoutSessionForSubscription = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCheckoutSessionForSubscription>>, TError,void, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof createCheckoutSessionForSubscription>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getCreateCheckoutSessionForSubscriptionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    export const changeSubscription = (
+    
+ ) => {
+      
+      
+      return customInstance<void>(
+      {url: `/api/subscription/change`, method: 'PATCH'
+    },
+      );
+    }
+  
+
+
+export const getChangeSubscriptionMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeSubscription>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof changeSubscription>>, TError,void, TContext> => {
+    
+const mutationKey = ['changeSubscription'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changeSubscription>>, void> = () => {
+          
+
+          return  changeSubscription()
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ChangeSubscriptionMutationResult = NonNullable<Awaited<ReturnType<typeof changeSubscription>>>
+    
+    export type ChangeSubscriptionMutationError = ErrorType<unknown>
+
+    export const useChangeSubscription = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeSubscription>>, TError,void, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof changeSubscription>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getChangeSubscriptionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    export const cancelSubscription = (
+    
+ ) => {
+      
+      
+      return customInstance<void>(
+      {url: `/api/subscription/cancel`, method: 'DELETE'
+    },
+      );
+    }
+  
+
+
+export const getCancelSubscriptionMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof cancelSubscription>>, TError,void, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof cancelSubscription>>, TError,void, TContext> => {
+    
+const mutationKey = ['cancelSubscription'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof cancelSubscription>>, void> = () => {
+          
+
+          return  cancelSubscription()
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CancelSubscriptionMutationResult = NonNullable<Awaited<ReturnType<typeof cancelSubscription>>>
+    
+    export type CancelSubscriptionMutationError = ErrorType<unknown>
+
+    export const useCancelSubscription = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof cancelSubscription>>, TError,void, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof cancelSubscription>>,
+        TError,
+        void,
+        TContext
+      > => {
+
+      const mutationOptions = getCancelSubscriptionMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    

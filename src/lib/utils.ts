@@ -13,3 +13,10 @@ export function formatTime(date: Date) {
   const seconds = totalSeconds % 60;
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
+
+export function formatPrice(price: number) {
+  return (price / 100).toLocaleString("nl-NL", {
+    style: "currency",
+    currency: "EUR",
+  });
+}

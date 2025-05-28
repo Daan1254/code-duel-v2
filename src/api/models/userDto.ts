@@ -5,6 +5,7 @@
  * The Code Dual API description
  * OpenAPI spec version: 1.0
  */
+import type { UserDtoSubscription } from './userDtoSubscription';
 
 export interface UserDto {
   /** The ID of the user */
@@ -13,4 +14,9 @@ export interface UserDto {
   username: string;
   /** The email of the user */
   email: string;
+  /**
+   * The subscription of the user
+   * @nullable
+   */
+  subscription: UserDtoSubscription;
 }

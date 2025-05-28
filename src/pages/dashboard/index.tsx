@@ -1,4 +1,4 @@
-import { useGetMe } from "@/api/endpoints/user/user";
+import { useGetProfile } from "@/api/endpoints/user/user";
 import { StatisticsCard } from "@/components/dashboard/StatisticsCard";
 import { Navigation } from "@/components/shared/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,7 +13,7 @@ import {
 import { useRouter } from "next/router";
 
 export default function Dashboard() {
-  const { data, isLoading } = useGetMe();
+  const { data, isLoading } = useGetProfile();
   const router = useRouter();
 
   if (isLoading) {
@@ -60,15 +60,19 @@ export default function Dashboard() {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Plan:</span>
-                    <span className="font-medium">Pro</span>
+                    <span className="font-medium">
+                      {data?.subscription?.name ?? "FREE"}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Status:</span>
-                    <span className="font-medium text-green-500">Active</span>
+                    <span className="font-medium text-green-500">
+                      {data?.subscription?.status}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Next billing:</span>
-                    <span className="font-medium">July 1, 2025</span>
+                    <span className="font-medium">volgende week neef</span>
                   </div>
                   <Button className="w-full mt-4">Upgrade Plan</Button>
                 </div>
