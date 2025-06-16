@@ -32,7 +32,7 @@ export function useGameSocket(): GameSocket {
     if (!user?.id || !params.uuid) return;
     console.log("uuid", params.uuid);
     const newSocket = io(
-      `${process.env.NEXT_PUBLIC_SOCKET_URL ?? "http://localhost:80"}/game`,
+      `${process.env.NEXT_PUBLIC_BACK_END_URL ?? "http://localhost"}/game-ws`,
       {
         auth: {
           userId: user?.id,
