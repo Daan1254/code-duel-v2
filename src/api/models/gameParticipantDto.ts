@@ -16,4 +16,6 @@ export interface GameParticipantDto {
   completedAt: string;
   language: GameParticipantDtoLanguage;
   isHost: boolean;
+  percentage: number;
+  sharedCode: boolean;
 }

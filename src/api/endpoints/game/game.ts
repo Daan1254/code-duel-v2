@@ -77,4 +77,59 @@ const {mutation: mutationOptions} = options ?
 
       return useMutation(mutationOptions);
     }
+    export const shareCode = (
+    gameId: string,
+ ) => {
+      
+      
+      return customInstance<void>(
+      {url: `/api/game/share-code/${gameId}`, method: 'PUT'
+    },
+      );
+    }
+  
+
+
+export const getShareCodeMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof shareCode>>, TError,{gameId: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof shareCode>>, TError,{gameId: string}, TContext> => {
+    
+const mutationKey = ['shareCode'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof shareCode>>, {gameId: string}> = (props) => {
+          const {gameId} = props ?? {};
+
+          return  shareCode(gameId,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ShareCodeMutationResult = NonNullable<Awaited<ReturnType<typeof shareCode>>>
+    
+    export type ShareCodeMutationError = ErrorType<unknown>
+
+    export const useShareCode = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof shareCode>>, TError,{gameId: string}, TContext>, }
+): UseMutationResult<
+        Awaited<ReturnType<typeof shareCode>>,
+        TError,
+        {gameId: string},
+        TContext
+      > => {
+
+      const mutationOptions = getShareCodeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
     

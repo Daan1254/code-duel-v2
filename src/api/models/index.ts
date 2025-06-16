@@ -20,5 +20,7 @@ export * from './signInDto';
 export * from './statisticDto';
 export * from './subscriptionDto';
 export * from './subscriptionDtoStatus';
+export * from './testCaseDto';
+export * from './testCaseDtoInputs';
 export * from './userDto';
 export * from './userDtoSubscription';

@@ -11,7 +11,8 @@ export interface GameSocket {
   leave: () => void;
   isHost: boolean;
   startGame: () => void;
-  submitCode: () => void;
+  submitCode: (percentage: number, code: string) => void;
+  shareCode: () => void;
 }
 
 interface GameSocketError {
@@ -89,9 +90,13 @@ export function useGameSocket(): GameSocket {
     }
   };
 
-  const submitCode = () => {
+  const submitCode = (percentage: number, code: string) => {
     if (!socket || !user?.id) return;
-    socket.emit("submit");
+
+    socket.emit("submit", {
+      percentage: percentage ?? 0,
+      code,
+    });
 
     router.push(`/game/${params.uuid}/results`);
   };
@@ -132,5 +137,10 @@ export function useGameSocket(): GameSocket {
     }
   }, [gameState]);
 
-  return { gameState, leave, isHost, startGame, submitCode };
+  const shareCode = () => {
+    if (!socket || !user?.id) return;
+    socket.emit("shareCode");
+  };
+
+  return { gameState, leave, isHost, startGame, submitCode, shareCode };
 }

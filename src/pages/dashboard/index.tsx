@@ -143,6 +143,7 @@ export default function Dashboard() {
                   <Button
                     className="w-full"
                     onClick={handleViewInvoices}
+                    data-testid="invoices-button"
                     disabled={
                       customerPortalMutation.isPending || !currentSubscription
                     }

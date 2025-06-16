@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start --port 4444",
     "lint": "next lint",
-    "orval": "orval --config orval.config.js"
+    "orval": "orval --config orval.config.js",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run",
+    "cypress:component": "cypress run --component"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
@@ -39,6 +42,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cypress": "^14.4.1",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
     "postcss": "^8",

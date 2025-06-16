@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { ChallengeDtoDifficulty } from './challengeDtoDifficulty';
+import type { TestCaseDto } from './testCaseDto';
 
 export interface ChallengeDto {
   id: string;
@@ -13,4 +14,5 @@ export interface ChallengeDto {
   description: string;
   difficulty: ChallengeDtoDifficulty;
   starterCode: string;
+  testCases: TestCaseDto[];
 }
