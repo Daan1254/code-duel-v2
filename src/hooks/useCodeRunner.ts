@@ -42,7 +42,6 @@ export function useCodeRunner(): CodeRunnerHook {
   // Initialize worker
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // @ts-ignore: Worker path is resolved at runtime
       const worker = new Worker("/workers/codeRunner.js");
 
       worker.onmessage = (event) => {
