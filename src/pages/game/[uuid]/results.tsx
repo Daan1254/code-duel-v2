@@ -10,17 +10,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGameSocket } from "@/hooks/useGameSocket";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 const ResultsPage = () => {
   const { gameState, shareCode } = useGameSocket();
   const { user: userData } = useUser();
   const router = useRouter();
-  const [selectedCode, setSelectedCode] = useState<{
-    username: string;
-    code: string;
-    language: string;
-  } | null>(null);
 
   if (!gameState) {
     return <div>Loading...</div>;
@@ -29,14 +23,6 @@ const ResultsPage = () => {
   const handleShareCode = async () => {
     if (!gameState) return;
     await shareCode();
-  };
-
-  const handleViewCode = (user: any) => {
-    setSelectedCode({
-      username: user.user.username,
-      code: user.sharedCode,
-      language: user.language,
-    });
   };
 
   const calculateDuration = (completedAt: string | null, startsAt: string) => {
@@ -121,18 +107,14 @@ const ResultsPage = () => {
                     {user.sharedCode && (
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button
-                            variant="secondary"
-                            size="sm"
-                            onClick={() => handleViewCode(user)}
-                          >
+                          <Button variant="secondary" size="sm">
                             VIEW CODE
                           </Button>
                         </AlertDialogTrigger>
                         <AlertDialogContent className="bg-[#181a20] border border-muted-foreground/20 max-w-4xl max-h-[80vh] overflow-hidden">
                           <AlertDialogHeader>
                             <AlertDialogTitle className="text-xl font-bold text-white">
-                              {user.user.username}'s Code ({user.language})
+                              {user.user.username}&apos;s Code ({user.language})
                             </AlertDialogTitle>
                           </AlertDialogHeader>
                           <div className="mt-4 overflow-auto">

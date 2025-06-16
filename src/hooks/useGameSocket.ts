@@ -80,7 +80,7 @@ export function useGameSocket(): GameSocket {
     return () => {
       newSocket.close();
     };
-  }, [user?.id, router]);
+  }, [user?.id, router, params?.uuid]);
 
   const leave = () => {
     if (socket && user?.id) {
@@ -135,7 +135,7 @@ export function useGameSocket(): GameSocket {
         )?.isHost || false
       );
     }
-  }, [gameState]);
+  }, [gameState, user?.id]);
 
   const shareCode = () => {
     if (!socket || !user?.id) return;

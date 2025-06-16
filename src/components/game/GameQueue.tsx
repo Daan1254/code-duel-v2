@@ -39,7 +39,7 @@ export const GameQueue = ({
         startGame();
       }
     }
-  }, [gameState]);
+  }, [gameState, isHost, startGame]);
 
   const maxPlayers = 8;
 

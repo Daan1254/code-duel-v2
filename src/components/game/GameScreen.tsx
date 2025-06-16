@@ -29,10 +29,6 @@ const GameScreen = ({ gameState, submitCode }: GameSocket) => {
   const [currentCode, setCurrentCode] = useState("");
   const [testResults, setTestResults] = useState<TestResult[]>([]);
 
-  if (!gameState) {
-    return <div>Loading...</div>;
-  }
-
   // Initialize code with starter code
   useEffect(() => {
     if (gameState?.challenge?.starterCode && !currentCode) {
@@ -140,6 +136,9 @@ const GameScreen = ({ gameState, submitCode }: GameSocket) => {
     submitCode(percentage, currentCode);
   };
 
+  if (!gameState) {
+    return <div>Loading...</div>;
+  }
   // Get visible test cases for display
   const visibleTestCases =
     gameState.challenge.testCases?.filter((tc) => !tc.hidden) || [];

@@ -20,7 +20,7 @@ export default function Game() {
       }
     };
     fetchGame();
-  }, []);
+  }, [createGame, router]);
 
   return (
     <div className="w-full h-screen flex items-center justify-center flex-col gap-4 bg-background">
